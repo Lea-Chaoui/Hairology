@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Connexion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Reenie+Beanie&display=swap" rel="stylesheet">
+<style>
+
+body {
+    background-color:#efefef;
+    color:#262626;
+    font-family:'Montserrat', sans-serif;
+    margin:0; padding:0;
+}
+header {
+    background-color:#6b1313;
+    color:#fff;
+    padding:30px;
+    text-align:center;
+}
+.container {
+    max-width:600px;
+    margin:40px auto;
+    background-color:#efefef;
+    padding:30px;
+    border-radius:10px;
+}
+input{
+    width:100%;
+    padding:12px;
+    margin-top:10px;
+    font-family:'Montserrat', sans-serif;
+    font-size:16px;
+    border:1px solid #ccc;
+    border-radius:6px;
+}
+button{
+    width:100%;
+    padding:12px;
+    margin-top:10px;
+    font-family:'Montserrat', sans-serif;
+    font-size:16px;
+    background-color:#6b1313;
+    color:#fff;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+}
+button:hover { opacity:0.9; }
+.nav-buttons {
+    display:flex;
+    justify-content:space-between;
+    margin-top:20px;
+}
+.nav-buttons a {
+    text-decoration:none;
+    color:#fff;
+    background-color:#6b1313;
+    padding:10px 20px;
+    border-radius:5px;
+}
+.error {
+    color:red;
+    margin-top:15px;
+    font-weight:bold;
+}
+.info-text {
+    margin-bottom:15px;
+    font-size:18px;
+}
+.nav-buttons { display:flex; justify-content:space-between; margin-top:20px; }
+.nav-buttons a { text-decoration:none; color:#6b1313; background-color:#fff; padding:10px 20px; border-radius:5px; 
+}
+</style>
+</head>
+
+<body>
+<header>
+  <h1>HAIROLOGY</h1>
+  <div class="nav-buttons">
+    <a href="/">Accueil</a>
+    {% if session.user_id %}
+        <a href="/profil">Profil</a>
+        <a href="/logout">Déconnexion</a>
+    {% else %}
+        <a href="/signup">Inscription</a>
+    {% endif %}
+  </div>
+</header>
+
+<div class="container">
+
+<h2>Connexion</h2>
+<div class="info-text">
+Bienvenue sur HAIROLOGY !<br>
+Connectez-vous pour accéder à votre profil et suivre vos produits capillaires.
+</div>
+
+<form method="POST">
+
+    <label>Votre email</label>
+    <input type="email" name="email" required style="margin-bottom:20px;">
+
+
+    <label>Mot de passe</label>
+    <input type="password" name="password" required style="margin-bottom:20px;">
+
+    <button type="submit">Se connecter</button>
+</form>
+
+{% if error %}<p class="error">{{ error }}</p>{% endif %}
+
+<div class="nav-buttons">
+    <a href="/signup">Inscription</a>
+    <a href="/">Accueil</a>
+</div>
+</div>
+
+</body>
+</html>

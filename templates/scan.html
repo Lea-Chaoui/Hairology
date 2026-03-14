@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>HAIROLOGY — Scanner</title>
+
+<script src="https://unpkg.com/@ericblade/quagga2/dist/quagga.js"></script>
+
+<style>
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background: #efefef;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 24px 16px;
+        color: #1a070c;
+    }
+
+    h2 {
+        margin-bottom: 18px;
+        font-size: 35px;
+        font-weight: 700;
+        letter-spacing: 4px;
+        color: #7b1e2b;
+    }
+
+
+    .scanner-wrapper {
+        width: 100%;
+        max-width: 420px;
+        background: #7b1e2b;
+        border-radius: 24px;
+        padding: 5px;
+        box-shadow: 0 14px 30px rgba(0,0,0,0.12);
+    }
+
+
+    #scanner {
+        width: 100%;
+        height: 320px;
+        background: white;
+        border-radius: 18px;
+        overflow: hidden;
+        position: relative;
+    }
+
+ 
+    #scanner::after {
+        content: "";
+        position: absolute;
+        top: 22%;
+        left: 10%;
+        width: 80%;
+        height: 56%;
+        border: 2px dashed rgba(18, 11, 11, 0.8);
+        border-radius: 14px;
+        pointer-events: none;
+    }
+
+    #result {
+        margin-top: 16px;
+        font-size: 0.95rem;
+        color: #333;
+        text-align: center;
+    }
+
+ 
+    #manualInput {
+        margin-top: 22px;
+        display: flex;
+        gap: 10px;
+        width: 100%;
+        max-width: 420px;
+    }
+
+    input[type="text"] {
+        flex: 1;
+        padding: 12px;
+        font-size: 0.95rem;
+        border-radius: 10px;
+        border: 1px solid #ccc;
+    }
+
+    button {
+        padding: 12px 16px;
+        font-size: 0.95rem;
+        background: #7b1e2b;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background: #9a2637;
+    }
+
+    .hint {
+        margin-top: 10px;
+        font-size: 0.8rem;
+        color: #777;
+        text-align: center;
+    }
+    #scannerOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 18px;
+    z-index: 10;
+}
+
+</style>
+</head>
+
+<body>
+
+<h2>HAIROLOGY</h2>
+
+<div class="scanner-wrapper">
+    <div id="scanner">
+        <div id="scannerOverlay">Cliquez ici pour activer la caméra</div>
+    </div>
+</div>
+
+<div id="productInfo"></div>
+<div id="addButtonContainer" style="margin-top:15px; display:none;">
+    <button id="addToCollectionBtn">Ajouter à ma collection</button>
+</div>
+
+<p id="result">Place le code-barres dans le cadre</p>
+
+
+<p > Pas de code-barres ? Pas de souci ! Entrez simplement le numéro EAN ici: </p>
+<div id="manualInput">
+    <input type="text" id="eanField" placeholder="Entrer le code EAN manuellement">
+    <button onclick="sendManualCode()">Analyser</button>
+</div>
+
+<button onclick="window.location.href='/'" style="margin-top:15px;">← Retour à l'accueil</button>
+
+<p class="hint">
+    Pour un meilleur résultat, utilisez un bon éclairage
+</p>
+
+<script src="{{ url_for('static', filename='scan.js') }}"></script>
+
+</body>
+</html>

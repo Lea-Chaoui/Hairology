@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Inscription</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Reenie+Beanie&display=swap" rel="stylesheet">
+<style>
+
+body {
+    background-color:#efefef;
+    color:#262626;
+    font-family:'Montserrat', sans-serif;
+    margin:0; padding:0;
+}
+header {
+    background-color:#6b1313;
+    color:#fff;
+    padding:30px;
+    text-align:center;
+}
+
+.container {
+    max-width:600px;
+    margin:40px auto;
+    background-color:#efefef;  
+    padding:30px;
+    border-radius:10px;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    margin-top:10px;
+    font-family:'Montserrat', sans-serif;
+    font-size:16px;
+    border:1px solid #ccc;
+    border-radius:6px;
+}
+button {
+    width:100%;
+    padding:12px;
+    margin-top:10px;
+    font-family:'Montserrat', sans-serif;
+    font-size:16px;
+    border:1px solid #ccc;
+    border-radius:6px;
+}
+button {
+    background-color:#6b1313;
+    color:#fff;
+    border:none;
+    cursor:pointer;
+}
+button:hover { opacity:0.9; }
+
+.gender-cards {
+    display:flex;
+    gap:10px;
+    margin-top:10px;
+}
+.gender-card {
+    flex:1;
+    text-align:center;
+    padding:20px;
+    border:2px solid transparent;
+    border-radius:8px;
+    cursor:pointer;
+    transition:0.2s;
+    background-color:#fff;
+    box-shadow:0 2px 5px rgba(0,0,0,0.1);
+}
+.gender-card:hover { border-color:#6b1313; transform:scale(1.05); }
+.gender-card.selected { border-color:#6b1313; background-color:#f2e5e5; font-weight:bold; }
+
+.hair-types {
+    display:flex;          
+    flex-wrap: nowrap;     
+    gap:8px;               
+    overflow-x:auto;       
+    margin-top:10px;
+}
+.hair-types img {
+    width:60px;
+    height:85px;
+    object-fit:contain;
+    border:2px solid transparent;
+    border-radius:8px;
+    cursor:pointer;
+    transition:0.2s;
+}
+.hair-types img:hover {
+    border-color:#6b1313;
+    transform:scale(1.1);
+}
+.hair-types img.selected { border-color:#6b1313; }
+
+.nav-buttons {
+    display:flex;
+    justify-content:space-between;
+    margin-top:20px;
+}
+.nav-buttons a {
+    text-decoration:none;
+    color:#fff;
+    background-color:#6b1313;
+    padding:10px 20px;
+    border-radius:5px;
+}
+
+.error {
+    color: red;
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+.hair-types-container {
+    background-color: #ffffff;  
+    padding: 10px;               
+    border-radius: 10px;         
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
+}
+
+.info-text {
+    border-radius:px;
+    margin-top:15px;
+    font-size:18px;
+}
+
+.citation { 
+    font-family: 'Reenie Beanie', cursive; font-size:24px; text-align:center; margin-top:30px; color:#6b1313; 
+}
+
+.nav-buttons { display:flex; justify-content:space-between; margin-top:20px; }
+.nav-buttons a { 
+    text-decoration:none; color:#6b1313; background-color:#fff; padding:10px 20px; border-radius:5px; 
+}
+
+</style>
+</head>
+
+<body>
+<header>
+  <h1>HAIROLOGY</h1>
+  <div class="nav-buttons">
+    <a href="/">Accueil</a>
+    {% if session.user_id %}
+        <a href="/profil">Profil</a>
+        <a href="/logout">Déconnexion</a>
+    {% else %}
+        <a href="/login">Connexion</a>
+    {% endif %}
+  </div>
+</header>
+
+<div class="container">
+
+<h2>Inscription</h2>
+
+
+<div class="info-text" style="margin-bottom:20px;">
+Bienvenue sur HAIROLOGY !<br>
+</div>
+
+<div class="info-text" style="margin-bottom:20px;">
+Pour personnaliser votre expérience et vous proposer des recommandations adaptées, merci de compléter votre inscription.
+</div>
+
+<form method="POST">
+
+    <label>Votre nom</label>
+    <input type="text" name="nom" required style="margin-bottom:20px;">
+
+    <label>Votre prénom</label>
+    <input type="text" name="prenom" required style="margin-bottom:20px;">
+
+    <label>Votre genre</label>
+    <input type="hidden" name="genre" id="genre" style="margin-bottom:20px;">
+    <div class="gender-cards" style="margin-bottom:20px;">
+        <div class="gender-card" data-value="Femme">Femme</div>
+        <div class="gender-card" data-value="Homme">Homme</div>
+        <div class="gender-card" data-value="Autre">Autre</div>
+    </div>
+
+    <!-- Type cheveux et images -->
+    <label style="margin-bottom:20px;">Votre type de cheveux</label>
+    <input type="hidden" name="type_cheveux" id="type_cheveux ">
+    <div class="hair-types-container" style="margin-bottom:20px;">
+        <div class="hair-types" style="margin-bottom:20px;">
+            <img src="/static/images/1a.png" alt="1a" data-value="1a">
+            <img src="/static/images/1b.png" alt="1b" data-value="1b">
+            <img src="/static/images/1c.png" alt="1c" data-value="1c">
+            <img src="/static/images/2a.png" alt="2a" data-value="2a">
+            <img src="/static/images/2b.png" alt="2b" data-value="2b">
+            <img src="/static/images/2c.png" alt="2c" data-value="2c">
+            <img src="/static/images/3a.png" alt="3a" data-value="3a">
+            <img src="/static/images/3b.png" alt="3b" data-value="3b">
+            <img src="/static/images/3c.png" alt="3c" data-value="3c">
+            <img src="/static/images/4a.png" alt="4a" data-value="4a">
+            <img src="/static/images/4b.png" alt="4b" data-value="4b">
+            <img src="/static/images/4c.png" alt="4c" data-value="4c">
+        </div>
+        
+    </div>
+
+    <label>Votre email</label>
+    <input type="email" name="email" required style="margin-bottom:20px;">
+
+    <label>Mot de passe</label>
+    <input type="password" name="password" required>
+
+    <div class="citation" style="margin-bottom:20px; " >
+Ces informations nous permettent de vous offrir un suivi capillaire précis et sécurisé, entièrement adapté à votre profil.
+    </div>
+
+    <button type="submit">S'inscrire</button>
+</form>
+
+{% if error %}
+<p class="error">{{ error }}</p>
+{% endif %}
+
+<div class="nav-buttons">
+    <a href="/login">Connexion</a>
+    <a href="/">Accueil</a>
+</div>
+</div>
+
+<script>
+// cheveux
+const hairImages = document.querySelectorAll('.hair-types img');
+const hairInput = document.getElementById('type_cheveux');
+hairImages.forEach(img => {
+    img.addEventListener('click', () => {
+        hairImages.forEach(i => i.classList.remove('selected'));
+        img.classList.add('selected');
+        hairInput.value = img.dataset.value;
+    });
+});
+
+// genre
+const genderCards = document.querySelectorAll('.gender-card');
+const genderInput = document.getElementById('genre');
+genderCards.forEach(card => {
+    card.addEventListener('click', () => {
+        genderCards.forEach(c => c.classList.remove('selected'));
+        card.classList.add('selected');
+        genderInput.value = card.dataset.value;
+    });
+});
+</script>
+</body>
+</html>

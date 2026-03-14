@@ -1,0 +1,248 @@
+<!DOCTYPE html> 
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Profil</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Reenie+Beanie&display=swap" rel="stylesheet">
+<style>
+body {
+    background-color:#efefef;
+    color:#262626;
+    font-family:'Montserrat', sans-serif;
+    margin:0; padding:0;
+}
+header {
+    background-color:#6b1313;
+    color:#fff;
+    padding:30px;
+    text-align:center;
+}
+.container {
+    max-width:600px;
+    margin:40px auto;
+    background-color:#efefef;
+    padding:30px;
+    border-radius:10px;
+}
+input, select, button {
+    padding:12px;
+    margin-top:10px;
+    font-family:'Montserrat', sans-serif;
+    font-size:16px;
+    border:1px solid #ccc;
+    border-radius:6px;
+}
+input[readonly] {
+    background-color:#f5f5f5;
+    cursor: default;
+}
+button {
+    background-color:#6b1313;
+    color:#fff;
+    border:none;
+    cursor:pointer;
+}
+button:hover { opacity:0.9; }
+
+.profile-card {
+    background-color:#fff;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 2px 5px rgba(0,0,0,0.1);
+    margin-bottom:20px;
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.profile-card img {
+    width:80px;
+    height:80px;
+    border-radius:50%;
+    object-fit:cover;
+}
+
+.name-line {
+    font-family:'Reenie Beanie', cursive;
+    font-size:30px;
+}
+
+.genre-field {
+    font-family:'Reenie Beanie', cursive;
+    font-size:30px;
+    margin-top:10px;
+}
+
+.accordion-title {
+    width:100%;
+    padding:12px;
+    text-align:left;
+    background-color:#fff;
+    border:1px solid #ccc;
+    border-radius:6px;
+    cursor:pointer;
+    margin-top:10px;
+    font-size:16px;
+    color:#6b1313; 
+    font-weight:bold;
+}
+.accordion-content {
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.3s ease;
+    background-color:#f5f5f5;
+    padding:0 12px;
+    border-radius:6px;
+    margin-bottom:10px;
+}
+.accordion-content p, .accordion-content ul {
+    margin:10px 0;
+}
+.accordion-item button.active + .accordion-content {
+    max-height:500px;
+    padding:10px 12px;
+}
+
+.logout-btn {
+    margin-top:20px;
+}
+.nav-buttons { display:flex; justify-content:space-between; margin-top:20px; }
+.nav-buttons a { text-decoration:none; color:#6b1313; background-color:#fff; padding:10px 20px; border-radius:5px; 
+}
+</style>
+</head>
+
+<body>
+<header>
+  <h1>HAIROLOGY</h1>
+  <div class="nav-buttons">
+    <a href="/">Accueil</a>
+    {% if session.user_id %}
+        <a href="/logout">Déconnexion</a>
+    {% else %}
+        <a href="/signup">Inscription</a>
+        <a href="/login">Connexion</a>
+    {% endif %}
+  </div>
+</header>
+
+<div class="container">
+
+    <h2>Hey {{ user.prenom }},
+        <br> Bienvenue dans votre espace HAIROLOGY !</h2>
+
+    <div class="profile-card">
+
+        <img src="{{ '/static/images/default_femme.png' if user.genre == 'Femme' else '/static/images/default_homme.png' if user.genre == 'Homme' else '/static/images/default_autre.png' }}" alt="Photo de profil">
+
+        <div>
+            <div class="name-line">{{ user.prenom }} {{ user.nom }}</div>
+            <div class="genre-field">{{ user.genre }}</div>
+        </div>
+    </div>
+
+<!-- données historiques et produits -->
+    <div class="accordion-container">
+        
+<div class="accordion-item">
+    <button class="accordion-title">Mes produits enregistrés</button>
+    <div class="accordion-content">
+        {% if user.products %}
+            <ul>
+                {% for prod in user.products %}
+                <li>
+                    {{ prod.nom }} - Ajouté le {{ prod.date_ajout }}
+                    {% if prod.date_utilisation %}
+                        - Utilisé le {{ prod.date_utilisation }}
+                    {% else %}
+                        <button onclick="markUsed({{ prod.id }})">Marquer comme utilisé</button>
+                    {% endif %}
+                </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Aucun produit enregistré pour le moment.</p>
+        {% endif %}
+    </div>
+</div>
+
+
+        <div class="accordion-item">
+            <button class="accordion-title">Mon historique capillaire</button>
+            <div class="accordion-content">
+                {% if user.history %}
+                    <ul>
+                        {% for entry in user.history %}
+                            <li>{{ entry.date }} : {{ entry.produit }} - {{ entry.action }}</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>Aucun historique capillaire pour le moment.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <button class="accordion-title">Tous les traitements passés</button>
+            <div class="accordion-content">
+                {% if user.treatments %}
+                    <ul>
+                        {% for treatment in user.treatments %}
+                            <li>{{ treatment.nom }} - Commencé le {{ treatment.date_debut }} - Terminé le {{ treatment.date_fin }}</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>Aucun traitement passé pour le moment.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <button class="accordion-title">Notifications et alertes</button>
+            <div class="accordion-content">
+                {% if user.notifications %}
+                    <ul>
+                        {% for notif in user.notifications %}
+                            <li>{{ notif.date }} - {{ notif.message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>Aucune notification pour le moment.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+<!--  déconnexion -->
+    <div class="logout-btn">
+        <a href="/logout"><button>Se déconnecter</button></a>
+    </div>
+
+</div>
+
+<script>
+
+const accTitles = document.querySelectorAll('.accordion-title');
+accTitles.forEach(btn => {
+    btn.addEventListener('click', () => {
+        btn.classList.toggle('active');
+    });
+});
+function markUsed(productId) {
+    fetch("/mark_used", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ product_id: productId })
+    })
+    .then(res => res.json())
+    .then(data => {
+        alert(data.message);
+        location.reload();
+    })
+    .catch(err => console.error(err));
+}
+</script>
+</body>
+</html>
