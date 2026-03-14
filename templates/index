@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>HAIROLOGY</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Reenie+Beanie&display=swap" rel="stylesheet">
+
+<style>
+ 
+
+body {
+    background-color:#efefef;
+    color:#262626;
+    font-family:'Montserrat', sans-serif;
+    margin:0; padding:0;
+}
+
+    h1 {
+        margin: 0;
+        font-size: 40px;
+        letter-spacing: 4px;
+        font-weight: 700;
+        color: #efefef;
+    }
+
+    .subtitle {
+        margin-top: 8px;
+        font-size: 15px;
+        color: #efefef;
+        text-align: center;
+    }
+
+    /* GROS BOUTON SCAN */
+    .main-card {
+        margin-top: 60px;
+        width: 40%;
+        background: #7b1e2b;
+        border-radius: 28px;
+        padding: 40px 24px;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.2s;
+        color: rgb(255, 254, 254);
+        margin-left: 30%;
+        margin-right: 30%;
+    }
+
+    .main-card:hover {
+        transform: scale(1.03);
+        box-shadow: 0 26px 55px rgba(0,0,0,0.3);
+    }
+
+    .icon {
+        width: 96px;
+        height: 96px;
+        border-radius: 26px;
+        background: white;
+        color: #7b1e2b;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 42px;
+        margin: 0 auto 24px auto;
+    }
+
+    .card-title {
+        text-align: center;
+        font-size: 22px;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+    .card-desc {
+        text-align: center;
+        font-size: 15px;
+        opacity: 0.9;
+        line-height: 1.4;
+    }
+
+header {
+    background-color:#6b1313;
+    color:#fff;
+    padding:30px;
+    text-align:center;
+}
+.container { max-width:600px; margin:40px auto; background-color:#fff; padding:30px; border-radius:8px; }
+button { background-color:#6b1313; color:#fff; border:none; padding:12px; width:100%; margin-top:15px; cursor:pointer; font-family:'Montserrat', sans-serif; font-size:16px; }
+button:hover { opacity:0.9; }
+select { width:100%; padding:12px; margin-top:15px; font-family:'Montserrat', sans-serif; font-size:16px; background-color:#fff; border:1px solid #ccc; }
+.safe { color:green; font-weight:bold; margin-top:20px; }
+.danger { color:red; font-weight:bold; margin-top:20px; }
+.citation { font-family: 'Reenie Beanie', cursive; font-size:24px; text-align:center; margin-top:30px; color:#6b1313; }
+.nav-buttons { display:flex; justify-content:space-between; margin-top:20px; }
+.nav-buttons a { text-decoration:none; color:#6b1313; background-color:#fff; padding:10px 20px; border-radius:5px; 
+}
+
+</style>
+</head>
+
+<body>
+<header>
+  <h1>HAIROLOGY</h1>
+  <div class="nav-buttons">
+    <a href="/">Accueil</a>
+    {% if session.user_id %}
+        <a href="/profil">Profil</a>
+        <a href="/logout">Déconnexion</a>
+    {% else %}
+        <a href="/signup">Inscription</a>
+        <a href="/login">Connexion</a>
+    {% endif %}
+  </div>
+</header>
+
+
+<div class="main-card" onclick="openScanner()">
+    <div class="icon">📷</div>
+    <div class="card-title">Scanner un produit</div>
+    <div class="card-desc">
+        Scannez le code-barres et laissez HAIROLOGY 
+        <Br> analyser votre produit en un instant.
+    </div>
+</div>
+
+<div class="citation">
+Prenez soin de vos cheveux comme de votre signature.
+</div>
+
+
+
+<script>
+function openScanner() {
+    window.location.href = "/scan";
+}
+</script>
+
+</body>
+</html>
+
