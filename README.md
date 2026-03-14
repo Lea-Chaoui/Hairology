@@ -4,7 +4,7 @@
 ## Auteurs : 
 Lea Chaoui (programmation), 
 Mathis Chappell (implementation du scan), 
-Morjana Benyahia (maquette (choix de mise en page et palette), 
+Morjana Benyahia (maquette, choix de mise en page et palette), 
 Laetitia Abotsi (expertise en capillaire et preparation de produits et ingredients)
 
 
